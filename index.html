@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Configuration SA818 — CTCSS en fréquence</title>
+  <title>SA818 configuration — CTCSS frequency</title>
   <style>
     body { font-family: Arial, sans-serif; margin: 20px; }
     fieldset { margin-bottom: 20px; padding: 15px; border-radius: 8px; }
@@ -15,66 +15,66 @@
   </style>
 </head>
 <body>
-  <h1>Contrôle du module SA818 V1.0 - F8ASB</h1>
+  <h1>SA818 V1.0 module control - F8ASB</h1>
 
   <div id="topButtons">
-    <button id="connectBtn">🔌 Choisir un port COM</button>
-    <button id="readConfigBtn">📖 Lire configuration</button>
-    <button id="readVersionBtn">ℹ️ Lire version</button>
+    <button id="connectBtn">🔌 Choose a COM port</button>
+    <button id="readConfigBtn">📖 Read configuration</button>
+    <button id="readVersionBtn">ℹ️ Read version</button>
   </div>
 
   <fieldset>
-    <legend>Groupe (fréquences, CTCSS, SQ)</legend>
-    <label>Bande passante :</label>
+    <legend>Group (frequencies, CTCSS, SQ)</legend>
+    <label>Bandwidth:</label>
     <select id="gbw">
       <option value="0">12.5 kHz</option>
       <option value="1">25 kHz</option>
     </select><br>
 
-    <label>Fréquence TX (MHz):</label>
+    <label>TX frequency (MHz):</label>
     <input type="text" id="txFreq" value="433.5000"><br>
 
-    <label>Fréquence RX (MHz):</label>
+    <label>RX Frequency (MHz):</label>
     <input type="text" id="rxFreq" value="433.5000"><br>
 
-    <label>CTCSS TX :</label>
+    <label>CTCSS Tx:</label>
     <select id="txCss"></select><br>
 
-    <label>Niveau Squelch :</label>
+    <label>Squelch level:</label>
     <input type="number" id="squelch" min="0" max="8" value="4"><br>
 
-    <label>CTCSS RX :</label>
+    <label>CTCSS Rx:</label>
     <select id="rxCss"></select><br>
 
-    <button id="setGroupBtn">✅ Appliquer</button>
+    <button id="setGroupBtn">✅ Apply</button>
   </fieldset>
 
   <fieldset>
     <legend>Volume</legend>
-    <label>Niveau :</label>
+    <label>Level :</label>
     <input type="number" id="volume" min="1" max="8" value="4"><br>
-    <button id="setVolumeBtn">✅ Appliquer</button>
+    <button id="setVolumeBtn">✅ Apply</button>
   </fieldset>
 
   <fieldset>
-    <legend>Filtres</legend>
-    <label>Pré/dé-emphasis :</label>
+    <legend>Filters</legend>
+    <label>Pre/de-emphasis:</label>
     <select id="preemph"><option value="0">ON</option><option value="1">OFF</option></select><br>
 
-    <label>High-pass :</label>
+    <label>High-pass:</label>
     <select id="highpass"><option value="0">ON</option><option value="1">OFF</option></select><br>
 
-    <label>Low-pass :</label>
+    <label>Low-pass:</label>
     <select id="lowpass"><option value="0">ON</option><option value="1">OFF</option></select><br>
 
-    <button id="setFilterBtn">✅ Appliquer</button>
+    <button id="setFilterBtn">✅ Apply</button>
   </fieldset>
 
   <fieldset>
-    <legend>Tail Tone (bip de fin)</legend>
+    <legend>Tail Tone (end beep)</legend>
     <label>État :</label>
     <select id="tail"><option value="0">OFF</option><option value="1">ON</option></select><br>
-    <button id="setTailBtn">✅ Appliquer</button>
+    <button id="setTailBtn">✅ Apply</button>
   </fieldset>
 
   <div id="log"></div>
@@ -142,13 +142,13 @@
                   document.getElementById("squelch").value = parts[4];
                   setCtcssFromCode("rxCss", parts[5]);
                 } else {
-                  log("⚠️ Réponse inattendue: " + payload);
+                  log("⚠️ Unexpected response: " + payload);
                 }
               }
             }
           }
         } catch (err) {
-          log("❌ Erreur lecture: " + err);
+          log("❌ Reading error: " + err);
         } finally {
           try { reader.releaseLock(); } catch(e) {}
         }
@@ -185,10 +185,10 @@
     }
 
     async function sendCommand(cmd) {
-      if (!writer) { log("⚠️ Connectez d'abord un port COM"); return; }
+      if (!writer) { log("⚠️ Connect a COM port first"); return; }
       log("➡️ " + cmd);
       try { await writer.write(new TextEncoder().encode(cmd + "\r\n")); }
-      catch (e) { log("❌ Erreur écriture: " + e); }
+      catch (e) { log("❌ Writing error: " + e); }
     }
 
     document.getElementById('connectBtn').addEventListener('click', async () => {
@@ -196,10 +196,10 @@
         port = await navigator.serial.requestPort();
         await port.open({ baudRate: 9600 });
         writer = port.writable.getWriter();
-        log("✅ Port ouvert (9600,8,1,none)");
+        log("✅ Port open (9600,8,1,none)");
         readLoop();
       } catch (err) {
-        log("❌ Erreur: " + err);
+        log("❌ Error: " + err);
       }
     });
 
@@ -230,7 +230,7 @@
   </script>
   <hr>
 <p style="text-align:center; margin-top:20px;">
-  <a href="https://f8asb.com" target="_blank">Visitez F8ASB.COM</a>
+  <a href="https://asl.grid.bd" target="_blank">Visit asl.grid.bd</a>
 </p>
 </body>
 </html>
